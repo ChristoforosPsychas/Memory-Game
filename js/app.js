@@ -161,7 +161,7 @@ function updateMoveCounter() {
 }
 
 function updateStars(moves) {
-  if (moves === 12) {
+  if (moves === 13) {
     starCounter = 2;
     starElements[2].classList.toggle('fa-star');
     starElements[2].classList.toggle('fa-star-o');
