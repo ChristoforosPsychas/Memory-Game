@@ -91,6 +91,7 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+/*Initialization of some variables needed below.*/
 let openCardList = [];
 const matchedCardList = [];
 let moveCounter = 0;
@@ -106,6 +107,10 @@ const modalReset = document.querySelector('.modal-reset-button');
 let timerHandle;
 let timerStarted = false;
 
+/*This is my timer function which starts to count the time passed. I've used a flag variable to make sure
+  that the timer will only start once. I store the time which the function called into the start variable, calculate the difference and store it again in
+  another variable which i divide that by 1000 to find the seconds. Then my seconds in the timer will be the timePassed modulo 60 and the minutes will be
+  timePassed divide 60. This way i ensure that the timer will count correctly and count minutes as well as seconds.*/
 function startTimer() {
   if (timerStarted) return;
 
@@ -123,11 +128,18 @@ function startTimer() {
     timerMinutes.innerHTML = minutes;
   }, 1000);
 }
-
+/*My stop timer function. The function above has a setInterval which returns a number.
+  This function uses that number with the clearInterval to stop the timer.*/
 function stopTimer() {
 	clearInterval(timerHandle)
 }
 
+/*My function to handle the clicks that happen to the cards. I've included two restrictions.
+  The first checks if the same card is clicked. If it is, i return early because i dont want to do something more
+  to the already clicked card. The second checks if the element clicked is a node with the name LI and if the
+  length of the array of the open cards is less than 2. This is because someone can click something else in the deck besides the cards.
+  This would be faulty, so i wanted to be more specific. With the length less than 2, i check how many cards are in the array of the open cards.
+  When everything is okay, i start the timer, show the cards and call the addCardToOpenList function.*/
 function handleClick(evt) {
   const element = evt.target;
 
@@ -140,11 +152,13 @@ function handleClick(evt) {
 
     }
 }
-
+/*Event listeners for clicking the cards, the reset button and the modal reset button */
 deck.addEventListener('click', handleClick);
 resetButton.addEventListener('click', reset);
 modalReset.addEventListener('click', reset);
 
+/*This function pushes the card clicked into the array of the open cards. If the length of that array is 2, that means we have a pair and we must check it.
+  I call the updateMoveCounter function and the checkCardsMatch with a delay.*/
 function addCardToOpenList(card) {
     openCardList.push(card);
 
@@ -153,13 +167,13 @@ function addCardToOpenList(card) {
       setTimeout(checkCardsMatch, 350);
     }
 }
-
+/*Function to update the moves counter. Pretty simple. I increase the counter and put that into the display with the innerHTML property. Then i call the updateStars function.*/
 function updateMoveCounter() {
   moveCounter++;
   moves.innerHTML = moveCounter;
   updateStars(moveCounter);
 }
-
+/*My update stars function. If the moves reach a specific number, i drop one star by toggling the class names as seen below. If moves reach the second if statement, i drop another star.*/
 function updateStars(moves) {
   if (moves === 13) {
     starCounter = 2;
@@ -173,7 +187,10 @@ function updateStars(moves) {
   }
 }
 
-
+/*My compare function. If the classname of the childs of the first 2 positions of the array with the open cards is the same, that means they are the same and it's a match pair.
+  Then i pop them from the first array, and i push them with the correct order in a new array, which i will store the matched cards found. If the classname isn't the same,
+  i call the cardsDontMatch function with a delay again.
+  Finally, i put a condition that says if the length of the matched array is 16, that means i have found all the cards, and i should terminate. */
 function checkCardsMatch() {
   if (openCardList[0].firstElementChild.className === openCardList[1].firstElementChild.className) {
     for (const selectedCard of openCardList) {
@@ -192,19 +209,21 @@ function checkCardsMatch() {
     setTimeout(cardsDontMatch, 350);
   }
 }
-
+/*This function hides the cards again by removing the open and show classes. And i reinitialize the array with the open cards to empty it.*/
 function cardsDontMatch() {
   for (const selectedCard of openCardList) {
     selectedCard.classList.remove("open", "show");
   }
   openCardList = [];
 }
-
+/*The termination function. This function stops the timer and shows the modal.*/
 function endGame() {
     stopTimer();
     showModal();
 }
-
+/*The modal function. First i initialize some variables. The stars and the timer of the modal are copied from the display with the smart innerHTML property.
+  The message of the modal is being made differently. I print a different modal message depending on the star counter. And then i use the textContent property
+  to show the message. At the end of the function, i edit the display style of the modal to block, in order to make it appear whenever this functions is being called.*/
 function showModal() {
   const modalMessage = document.querySelector('.modal-message');
   const modalStars = document.querySelector('.modal-stars');
@@ -228,7 +247,7 @@ function showModal() {
   modal.style.display = 'block';
 
 }
-
+/*A very very very simple reset function. I use location reload to just reload the page from cache and start over.*/
 function reset() {
   location.reload();
 
