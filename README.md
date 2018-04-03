@@ -5,7 +5,7 @@
 * [Instructions](#instructions)
 * [How the Game Works](#how-the-game-works)
 * [Star Rating System](#star-rating-system)
-* [Dependecies and Resources](#dependecies-and-resources)
+* [Dependencies and Resources](#dependencies-and-resources)
 * [Development](#development)
 * [Future Work](#future-work)
 
@@ -25,9 +25,9 @@ The game board consists of sixteen "cards" arranged in a grid. The deck is made 
 
 This Memory Game has a star rating system. After a specific number of moves that the player will make, the star rating will be reduced. A player can only achieve 3 star ratings. Three, which is the best. Two, which is a medium rating, and one which is the worst. 
 
-### Dependecies and Resources
+### Dependencies and Resources
 
-This project does not use any dependecies (such as Bootstrap).
+This project does not use any dependencies (such as Bootstrap).
 
 ### Development
 
