@@ -8,6 +8,7 @@
 * [Dependencies and Resources](#dependencies-and-resources)
 * [Development](#development)
 * [Future Work](#future-work)
+* [Live Page](#live-page)
 
 
 
@@ -37,3 +38,6 @@ This Memory Game Project is made by Christoforos Psychas for the Udacity Front-E
 
 There are plans for expanding this memory game project and include various features, such as flip animations, match and unmatch animations and more, hopefully.
 
+### Live Page
+
+You can try my Memory Game [here](https://christoforospsychas.github.io/Memory-Game/)!
