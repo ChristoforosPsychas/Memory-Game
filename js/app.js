@@ -41,7 +41,7 @@ function createCardList(cards) {
   return [...cards, ...cards]
 }
 
-let shuffledCardList = shuffle(createCardList(cards));
+  let shuffledCardList = shuffle(createCardList(cards));
 
 /*
  * Display the cards on the page
@@ -50,19 +50,19 @@ let shuffledCardList = shuffle(createCardList(cards));
  *   - add each card's HTML to the page
  */
 
-for (const index in shuffledCardList) {
-  const card = shuffledCardList[index];
-  const cardElement = document.createElement('li');
-  const cardIcon = document.createElement('i');
+ for (const index in shuffledCardList) {
+   const card = shuffledCardList[index];
+   const cardElement = document.createElement('li');
+   const cardIcon = document.createElement('i');
 
-  cardElement.className = 'card';
-  cardElement.id = `card${index}`;
+   cardElement.className = 'card';
+   cardElement.id = `card${index}`;
 
-  cardIcon.className = card.faClass;
+   cardIcon.className = card.faClass;
 
-  cardElement.appendChild(cardIcon);
-  document.querySelector('.deck').appendChild(cardElement);
-}
+   cardElement.appendChild(cardIcon);
+   document.querySelector('.deck').appendChild(cardElement);
+ }
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -93,7 +93,7 @@ function shuffle(array) {
 
 /*Initialization of some variables needed below.*/
 let openCardList = [];
-const matchedCardList = [];
+let matchedCardList = [];
 let moveCounter = 0;
 let starCounter = 3;
 const deck = document.querySelector('.deck');
@@ -102,7 +102,10 @@ const starElements = document.querySelectorAll('.fa-star');
 const stars = document.querySelector('.stars');
 const timer = document.querySelector('.timer');
 const moves = document.querySelector(".moves");
+const timerSeconds = document.querySelector("#seconds");
+const timerMinutes = document.querySelector("#minutes");
 const modalReset = document.querySelector('.modal-reset-button');
+const modal = document.querySelector('.modal');
 
 let timerHandle;
 let timerStarted = false;
@@ -119,9 +122,6 @@ function startTimer() {
   timerHandle = setInterval(function() {
     let delta = Date.now() - start;
     let timePassed = Math.floor(delta / 1000);
-
-    const timerSeconds = document.querySelector("#seconds");
-    const timerMinutes = document.querySelector("#minutes");
     let seconds = ("0" +  Math.floor(timePassed % 60)).substr(-2);
     let minutes = ("0" +  Math.floor(timePassed / 60)).substr(-2);
     timerSeconds.innerHTML = seconds;
@@ -155,7 +155,7 @@ function handleClick(evt) {
 /*Event listeners for clicking the cards, the reset button and the modal reset button */
 deck.addEventListener('click', handleClick);
 resetButton.addEventListener('click', reset);
-modalReset.addEventListener('click', reset);
+modalReset.addEventListener('click', closeModal);
 
 /*This function pushes the card clicked into the array of the open cards. If the length of that array is 2, that means we have a pair and we must check it.
   I call the updateMoveCounter function and the checkCardsMatch with a delay.*/
@@ -219,7 +219,7 @@ function cardsDontMatch() {
 /*The termination function. This function stops the timer and shows the modal.*/
 function endGame() {
     stopTimer();
-    showModal();
+    setTimeout(showModal, 350);
 }
 /*The modal function. First i initialize some variables. The stars and the timer of the modal are copied from the display with the smart innerHTML property.
   The message of the modal is being made differently. I print a different modal message depending on the star counter. And then i use the textContent property
@@ -228,7 +228,7 @@ function showModal() {
   const modalMessage = document.querySelector('.modal-message');
   const modalStars = document.querySelector('.modal-stars');
   const modalTimer = document.querySelector('.modal-timer');
-  const modal = document.querySelector('.modal');
+
 
   modalStars.innerHTML = stars.innerHTML;
   modalTimer.innerHTML = timer.innerHTML;
@@ -245,10 +245,36 @@ function showModal() {
   }
 
   modal.style.display = 'block';
-
 }
-/*A very very very simple reset function. I use location reload to just reload the page from cache and start over.*/
-function reset() {
-  location.reload();
 
+function closeModal() {
+  modal.style.display = 'none';
+  reset();
+}
+/*My reset function. I initialize every variable that i need again, fix the star rating, the timer and reshuffling the cards.*/
+function reset() {
+  //location.reload();
+  let cards = document.getElementsByClassName('card');
+  openCardList = [];
+  matchedCardList = [];
+  moveCounter = 0;
+  moves.innerHTML = moveCounter;
+  starCounter = 3;
+  timerStarted = false;
+  for (let i = 0; i < starElements.length; i++) {
+    if (starElements[i].classList.contains('fa-star-o')) {
+      starElements[i].classList.toggle('fa-star-o');
+      starElements[i].classList.toggle('fa-star');
+    }
+  }
+  for (const totalCard of cards) {
+    totalCard.className = 'card';
+  }
+  timerSeconds.innerHTML = '00';
+  timerMinutes.innerHTML = '00';
+  stopTimer();
+  let shuffleList = shuffle(cards);
+  for (const card of shuffleList) {
+    document.querySelector('.deck').appendChild(card);
+  }
 }
