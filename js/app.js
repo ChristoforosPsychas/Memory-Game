@@ -175,12 +175,12 @@ function updateMoveCounter() {
 }
 /*My update stars function. If the moves reach a specific number, i drop one star by toggling the class names as seen below. If moves reach the second if statement, i drop another star.*/
 function updateStars(moves) {
-  if (moves === 13) {
+  if (moves === 15) {
     starCounter = 2;
     starElements[2].classList.toggle('fa-star');
     starElements[2].classList.toggle('fa-star-o');
   }
-  else if (moves === 16) {
+  else if (moves === 18) {
     starCounter = 1;
     starElements[1].classList.toggle('fa-star');
     starElements[1].classList.toggle('fa-star-o');
