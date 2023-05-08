@@ -44,7 +44,7 @@ h1 {
 
 .deck {
     width: 613px;
-    min-height: 83vh;
+    min-height: 55vh;
     background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
     padding: 32px;
     border-radius: 10px;
